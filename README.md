@@ -1,2 +1,1 @@
-# exp
-experiments
+Small scale learning experiences.
