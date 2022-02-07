@@ -1,0 +1,64 @@
+yarn run v1.22.17
+$ yarn build && ts-node stream.ts
+$ tsc
+NAIVE
+gen 0
+gen 1
+read { k: 0 }
+gen 2
+read { k: 1 }
+gen 3
+read { k: 2 }
+gen 4
+read { k: 3 }
+gen 5
+read { k: 4 }
+gen 6
+read { k: 5 }
+read { k: 6 }
+
+NORMAL
+gen 0
+gen 1
+gen 2
+gen 3
+gen 4
+read {"k":0}{"k":1}{"k":2}
+gen 5
+read {"k":3}
+gen 6
+read {"k":4}
+read {"k":5}
+read {"k":6}
+
+OBJECT
+gen 0
+gen 1
+gen 2
+gen 3
+read { k: 0 }
+gen 4
+read { k: 1 }
+gen 5
+read { k: 2 }
+gen 6
+read { k: 3 }
+read { k: 4 }
+read { k: 5 }
+read { k: 6 }
+
+WRAP
+gen 0
+gen 1
+gen 2
+gen 3
+read {"k":0}{"k":1}{"k":2}
+gen 4
+gen 5
+read {"k":3}
+gen 6
+read {"k":4}
+read {"k":5}
+read {"k":6}
+
+Done in 3.27s.
