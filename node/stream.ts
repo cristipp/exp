@@ -53,6 +53,7 @@ async function object() {
   await logObjectStream(s)
 }
 
+// Wrapping an object stream leads to:
 // TypeError [ERR_INVALID_ARG_TYPE]: The "chunk" argument must be of type string or an instance of Buffer or Uint8Array. Received an instance of Object
 async function wrap() {
   console.log('WRAP')
