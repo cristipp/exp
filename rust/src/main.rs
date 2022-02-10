@@ -1,11 +1,13 @@
 use std::any::{Any};
+use std::future::Future;
+use futures::future::FutureExt;
 use std::panic;
 // unstable
 // use std::backtrace::Backtrace;
 
 // https://stackoverflow.com/a/68558313
 
-fn convert_unwind_error<R>(r: Result<R, Box<dyn Any + Send>>) -> Result<R, String> {
+fn unwind_error_to_string<R>(r: Result<R, Box<dyn Any + Send>>) -> Result<R, String> {
     return match r {
         Ok(x) => Ok(x),
         Err(e) => Err(
@@ -24,17 +26,35 @@ fn unwind() {
     let r0 = panic::catch_unwind(|| {
         return "nothing new";
     });
-    println!("ok {:?}", convert_unwind_error(r0));
+    println!("ok {:?}", unwind_error_to_string(r0));
     let r1 = panic::catch_unwind(|| {
         panic!("not good");
     });
-    println!("err {:?}", convert_unwind_error(r1));
+    println!("err {:?}", unwind_error_to_string(r1));
     let r2 = panic::catch_unwind(|| {
         panic!("not good {}", "apple");
     });
-    println!("err {:?}", convert_unwind_error(r2));
+    println!("err {:?}", unwind_error_to_string(r2));
 }
 
-fn main() {
-    unwind()
+async fn try_with_catch_unwind<F, R>(future: F) -> Result<R, String>
+    where F: Future<Output = Result<R, String>>
+{
+    let result = future.catch_unwind().await;
+    result.unwrap()
+}
+
+async fn async_unwind(x: i32) {
+    let x = try_with_catch_unwind(async { Ok(x) }).await;
+    println!("x {:?}", x);
+    // let x2 = try_with_catch_unwind(async { Err("err".to_string()) }).await;
+    // println!("x2 {:?}", x2);
+    // let x3 = try_with_catch_unwind(async { panic!("not good") }).await;
+    // println!("x3 {:?}", x3);
+}
+
+#[tokio::main]
+async fn main() {
+    unwind();
+    async_unwind(42).await
 }
