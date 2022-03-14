@@ -6,6 +6,7 @@ use std::pin::Pin;
 // unstable
 // use std::backtrace::Backtrace;
 
+mod catch_unwind;
 mod stream;
 
 // https://stackoverflow.com/a/68558313
