@@ -1,3 +1,5 @@
+from spec import Cube, Measure, MeasureType, Filter, Format, Dimension, DimensionType
+
 spec = {
     'Users': Cube(
         sql='SELECT * FROM users',
