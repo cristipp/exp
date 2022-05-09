@@ -1,4 +1,3 @@
-import json
 from pathlib import Path
 from textwrap import dedent
 
@@ -70,15 +69,12 @@ class SpecCompiler:
 
 def test_users():
     # https://cube.dev/docs/schema/getting-started
-    cubes = users.spec
-
-    cubes_dict = {name: cube.dict(exclude_none=True) for name, cube in cubes.items()}
-    json0 = json.dumps(cubes_dict, indent=4)
+    json0 = users.spec.json(exclude_unset=True, indent=2)
     print(json0)
 
     assert json0 == Path('users.json').read_text()
 
-    compiler = SpecCompiler(cubes)
+    compiler = SpecCompiler(users.spec)
     sql0 = compiler.compile(Query(
         cube='Users',
         measures=['count'],
