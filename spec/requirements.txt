@@ -1,0 +1,2 @@
+chevron==0.14.0
+pydantic==1.9.0

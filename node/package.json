@@ -5,20 +5,22 @@
   "main": "dist/main.js",
   "types": "dist/main.d.ts",
   "scripts": {
-    "stream": "yarn build && ts-node src/stream.ts",
-    "questdb": "yarn build && ts-node src/questdb.ts",
-    "build": "tsc"
+    "stream": "yarn build && yarn ts-node src/stream.ts",
+    "questdb": "yarn build && yarn ts-node src/questdb.ts",
+    "token": "yarn build && yarn ts-node src/token.ts",
+    "build": "yarn tsc"
   },
   "keywords": [],
   "author": "",
   "license": "ISC",
   "devDependencies": {
     "nodemon": "^2.0.15",
-    "ts-node": "^10.4.0",
+    "ts-node": "^10.7.0",
     "typescript": "^4.5.5"
   },
   "dependencies": {
     "@types/pg": "^8.6.4",
+    "jsonwebtoken": "^8.5.1",
     "pg": "^8.7.3"
   }
 }
