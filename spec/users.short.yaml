@@ -1,0 +1,9 @@
+Users:
+  sql: SELECT id, city, company_name, is_paying FROM users
+  measures:
+    count: count(CUBE.id)
+    payingCount: count(CUBE.id WHERE CUBE.is_paying = true)
+    payingPercentage: 100.0 * payingCount / count
+  dimensions:
+    city: CUBE.city
+    companyName: CUBE.company_name

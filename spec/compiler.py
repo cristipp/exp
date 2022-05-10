@@ -1,7 +1,9 @@
+import logging
 from pathlib import Path
 from textwrap import dedent
 
 import chevron
+import yaml
 
 import users
 from spec import Cube, Query, MeasureType, Spec
@@ -69,8 +71,12 @@ class SpecCompiler:
 
 def test_users():
     # https://cube.dev/docs/schema/getting-started
+    dict0 = users.spec.dict()
     json0 = users.spec.json(exclude_unset=True, indent=2)
     print(json0)
+    yaml0 = yaml.dump(users.spec.dict())
+    print(yaml0)
+    assert 1 == 2
 
     assert json0 == Path('users.json').read_text()
 

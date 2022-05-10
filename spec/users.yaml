@@ -1,0 +1,23 @@
+Users:
+  sql: SELECT * FROM users
+  measures:
+    count:
+      type: count
+      sql: '{{CUBE}}.id'
+    payingCount:
+      type: count
+      sql: '{{CUBE}}.id'
+      filters:
+        - sql: '{{CUBE}}.paying = true'
+    payingPercentage:
+      type: number
+      sql: 100.0 * {{payingCount}} / {{count}}
+      format: percent
+  dimensions:
+    city:
+      type: string
+      sql: '{{CUBE}}.city'
+    companyName:
+      type: string
+      sql: '{{CUBE}}.company_name'
+
