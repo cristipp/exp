@@ -123,6 +123,6 @@ def test_users():
 
 
 def test_yaml():
-    users_dict = yaml.safe_load(Path('users.json').read_text())
+    users_dict = yaml.safe_load(Path('users.short.yaml').read_text())
     users = {name: Cube(**spec) for name, spec in users_dict.items()}
-    print(users)
+    print(json.dumps({name: cube.dict() for name, cube in users.items()}, indent=2))

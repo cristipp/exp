@@ -2,13 +2,14 @@ users:
   sql: SELECT id, city, company_name, is_paying FROM users
   measures:
     count: count(CUBE.id)
-    payingCount: count(CUBE.id WHEN CUBE.is_paying = true)
-    payingPercentage: 100.0 * payingCount / count FORMAT percent
-    payingPercentage2:
+    payingCount: count(CUBE.id) .filter CUBE.is_paying = true
+    payingPercentage: 100.0 * payingCount / count .format percent
+    # payingPercentage2: { sql: 100.0 * payingCount / count, format: percent }
+    payingPercentage3:
       type: number
       sql: 100.0 * payingCount / count
       format: percent
   dimensions:
     city: CUBE.city
     companyName: CUBE.company_name
-    data: CUBE.date TYPE date
+    data: CUBE.date .type date
