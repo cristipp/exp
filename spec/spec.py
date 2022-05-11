@@ -1,6 +1,6 @@
 from enum import Enum
 from pydantic import BaseModel
-from typing import Dict, List, Optional
+from typing import Dict, List, Optional, Union
 
 
 class MeasureType(str, Enum):
@@ -35,12 +35,11 @@ class Dimension(BaseModel, use_enum_values=True):
 
 class Cube(BaseModel):
     sql: str
-    measures: Dict[str, Measure]
-    dimensions: Dict[str, Dimension]
+    measures: Dict[str, Union[str, Measure]]
+    dimensions: Dict[str, Union[str, Dimension]]
 
 
-class Spec(BaseModel):
-    cubes: Dict[str, Cube]
+Spec = Dict[str, Cube]
 
 
 class Query(BaseModel):
