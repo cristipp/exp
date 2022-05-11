@@ -1,3 +1,4 @@
+import json
 import logging
 from pathlib import Path
 from textwrap import dedent
@@ -65,18 +66,17 @@ class SpecCompiler:
         self.spec = spec
 
     def compile(self, query: Query):
-        cube = self.spec.cubes[query.cube]
+        cube = self.spec[query.cube]
         return CubeCompiler(query.cube.lower(), cube).compile(query)
 
 
 def test_users():
     # https://cube.dev/docs/schema/getting-started
-    dict0 = users.spec.dict()
-    json0 = users.spec.json(exclude_unset=True, indent=2)
+    dict0 = {name: cube.dict(exclude_unset=True) for name, cube in users.spec.items()}
+    json0 = json.dumps(dict0, indent=2)
     print(json0)
-    yaml0 = yaml.dump(users.spec.dict())
+    yaml0 = yaml.dump(dict0, indent=2)
     print(yaml0)
-    assert 1 == 2
 
     assert json0 == Path('users.json').read_text()
 
@@ -120,3 +120,9 @@ def test_users():
         FROM (SELECT * FROM users) AS users
         GROUP BY 0
     ''')
+
+
+def test_yaml():
+    users_dict = yaml.safe_load(Path('users.json').read_text())
+    users = {name: Cube(**spec) for name, spec in users_dict.items()}
+    print(users)
